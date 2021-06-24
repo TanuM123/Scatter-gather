@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4154cda9-7395-4fa7-91d4-6bec6f8de18b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="scatter-gatherFlow" doc:id="92b00d30-a0fe-441a-b1d5-51c00abe99c0" >
+		<scheduler doc:name="Scheduler" doc:id="459aa457-a069-4517-b2e3-918585911f08" >
+			<scheduling-strategy >
+				<fixed-frequency />
+			</scheduling-strategy>
+		</scheduler>
+		<set-payload value="#[{'company':&quot;MuleSoft&quot;}]" doc:name="{'company':&quot;MuleSoft&quot;}" doc:id="215a9d27-2904-4a22-9521-59afc335f216" />
+		<choice doc:name='Company is MuleSoft?' doc:id="9e9b8f04-f85f-4d24-8780-90c08427c077" >
+			<when expression="#['MuleSoft'== payload.company]">
+				<set-payload value='#["true"]' doc:name='"true"' doc:id="0691540f-c698-490e-a4cb-b8000aa0458f" />
+			</when>
+			<otherwise >
+				<set-payload value="#[payload]" doc:name="Set Payload" doc:id="d84c4ff5-465b-4cbe-bdd7-d517e9edca86" />
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
